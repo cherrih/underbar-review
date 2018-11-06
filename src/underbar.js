@@ -190,18 +190,17 @@
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
     
-
-    // var item;
-    // var acc;
-    // if (arguments.length === 2) {
-    //   item = collection[0];
-    //   acc = iterator(collection, item)
-      
-      
-      
-      
-    // }
-    
+    if (arguments.length === 2) {
+      accumulator = collection[0];
+      for (var i = 1; i < collection.length; i++) {
+        accumulator = iterator(accumulator, collection[i]);
+      }
+    } else {
+      _.each(collection, function(element) {
+        accumulator = iterator(accumulator, element);
+      });
+    }
+    return accumulator;
   };
 
   // Determine if the array or object contains a given value (using `===`).
@@ -219,13 +218,22 @@
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-    // TIP: Try re-using reduce() here.
+
+    iterator = iterator || _.identity;
+    //use !! to coerce to a boolean
+    return !!_.reduce(collection, function(isTrue, item) {
+      return isTrue && iterator(item);
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    iterator = iterator || _.identity;
+    return !!_.reduce(collection, function(isTrue, item) {
+      return isTrue || iterator(item);
+    }, false);
   };
 
 
