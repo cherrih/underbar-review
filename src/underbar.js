@@ -83,7 +83,7 @@
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
     var result = [];
-    _.each(collection, function(element){
+    _.each(collection, function(element) {
       if (test(element)) {
         result.push(element);
       }
@@ -143,6 +143,11 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
+    var result = [];
+    _.each(collection, function(element) {
+      result.push(iterator(element));
+    });
+    return result;
   };
 
   /*
@@ -184,6 +189,19 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    
+
+    // var item;
+    // var acc;
+    // if (arguments.length === 2) {
+    //   item = collection[0];
+    //   acc = iterator(collection, item)
+      
+      
+      
+      
+    // }
+    
   };
 
   // Determine if the array or object contains a given value (using `===`).
@@ -278,7 +296,19 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var cache = {};
+    
+    return function () {
+      var key = JSON.stringify(arguments); 
+      if (!cache[key]) {
+        var result = func.apply(this, arguments);
+        cache[key] = result;
+      }
+      return cache[key];
+    };
   };
+  
+  
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
@@ -287,6 +317,7 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    
   };
 
 
